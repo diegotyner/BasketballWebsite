@@ -2,9 +2,14 @@
   text-align: center;
 }
 
+body {
+  overflow: scroll;
+}
+
 .table {
   max-width: 90%;
   margin: 3rem auto;
+  overflow: scroll;
 }
 
 .clickable {
