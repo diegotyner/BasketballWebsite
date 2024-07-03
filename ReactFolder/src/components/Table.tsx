@@ -49,7 +49,9 @@ const Table2 = () => {
       {sortedData.map((user, index) => (
         <tr key={index}>
           <th>{index+1}</th>
-          <td>{user.Video_Link}</td>
+          <th>
+            <a href={user.Video_Link} target="_blank">{user.Video_Link}</a>
+          </th>
           <td>{user.Title}</td>
           <td>{user.Published_At}</td>
           {/* Thumbnail is 480x360 */}
