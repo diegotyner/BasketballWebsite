@@ -35,9 +35,9 @@ const Table2 = () => {
       <thead className='table-dark'>
         <tr>
           <th><span>#</span></th>
-          <th><span>Video Link</span></th>
+          <th className='custom-width-link'><span>Video Link</span></th>
           <th><span>Title</span></th>
-          <th className='custom-width clickable' onClick={() => handleHeaderClick()}>
+          <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
             <span>Published</span>
             <span><Caret direction={sort}/></span>
           </th>

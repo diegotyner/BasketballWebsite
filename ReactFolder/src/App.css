@@ -12,8 +12,11 @@
   cursor: pointer;
 }
 
-th.custom-width {
-  width: 150px; /* Set a specific width for this column */
+th.custom-width-pub {
+  width: 120px; /* Set a specific width for this column */
+}
+th.custom-width-link {
+  width: 100px; /* Set a specific width for this column */
 }
 th > span {
   vertical-align: middle;
