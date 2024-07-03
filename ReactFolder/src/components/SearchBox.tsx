@@ -4,7 +4,7 @@ interface SearchBoxProps {
 }
 const SearchBox = ({ searchQuery, setSearchQuery }: SearchBoxProps) => {
   return (
-    <div className="searchBox bg-dark bg-gradient text-white">
+    <div className="searchBox bg-gradient text-white">
       <label htmlFor="searchBoxForm" className="form-label">
         &#127936; Search for Videos &#127936;
       </label>

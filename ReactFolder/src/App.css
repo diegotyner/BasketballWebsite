@@ -1,10 +1,16 @@
 #root {
   text-align: center;
+  --bg-color-blue: #0581c9cc;
 }
 
 body {
   overflow: scroll;
 }
+
+th {
+  background-color: var(--bg-color-blue) !important; 
+}
+
 
 .table {
   max-width: 90%;
@@ -22,6 +28,7 @@ body {
   margin: auto;
   padding: 8px 0.5rem 0.5rem 0.5rem;
   font-weight: bold;
+  background-color: var(--bg-color-blue); 
 }
 
 th.custom-width-num {

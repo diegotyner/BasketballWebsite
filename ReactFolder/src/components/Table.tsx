@@ -49,7 +49,7 @@ const Table = ({data}: TableProps) => {
       </tr>}
       {sortedData.map((user, index) => (
         <tr key={index}>
-          <th>{index+1}</th>
+          <td className='fw-bold'>{index+1}</td>
           <td>
             <a className="link-offset-2" href={user.Video_Link} target="_blank">Link</a>
           </td>
