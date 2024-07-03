@@ -36,8 +36,7 @@ const Table2 = () => {
         <tr>
           <th><span>#</span></th>
           <th className='custom-width-link'><span>Video Link</span></th>
-          <th><span>Thumbnail</span></th>
-          <th><span>Title</span></th>
+          <th className='custom-width-thumb'><span>Thumbnail</span></th>
           <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
             <span>Published</span>
             <span><Caret direction={sort}/></span>
@@ -49,14 +48,14 @@ const Table2 = () => {
       {sortedData.map((user, index) => (
         <tr key={index}>
           <th>{index+1}</th>
-          <th>
-            <a href={user.Video_Link} target="_blank">Link</a>
-          </th>
-          {/* Thumbnail is 480x360 */}
           <td>
-            <img src={user.Thumbnail_URL} alt="Thumbnail of YT vid"/> 
+            <a href={user.Video_Link} target="_blank">Link</a>
           </td>
-          <td>{user.Title}</td>
+          {/* Thumbnail is 480x360 */}
+          <td className='thumb-col'>
+            <img src={user.Thumbnail_URL} alt="Thumbnail of YT vid"/> 
+            <span>{user.Title}</span>
+          </td>
           <td>{user.Published_At}</td>
           <td>{user.Description}</td>
         </tr>

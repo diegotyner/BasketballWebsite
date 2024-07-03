@@ -13,12 +13,19 @@
 }
 
 th.custom-width-pub {
-  width: 120px; /* Set a specific width for this column */
+  width: 120px; 
 }
 th.custom-width-link {
-  width: 100px; /* Set a specific width for this column */
+  width: 100px; 
 }
-th > span {
+th.custom-width-thumb {
+  width: 100px; /* Intentially too small, making it squeeze img */
+}
+td.thumb-col {
+  padding-bottom: 3px;
+}
+
+th > span, td > span {
   vertical-align: middle;
 }
 
