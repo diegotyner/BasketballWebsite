@@ -37,7 +37,7 @@ const Table2 = () => {
           <th><span>#</span></th>
           <th><span>Video Link</span></th>
           <th><span>Title</span></th>
-          <th className='custom-width' onClick={() => handleHeaderClick()}>
+          <th className='custom-width clickable' onClick={() => handleHeaderClick()}>
             <span>Published</span>
             <span><Caret direction={sort}/></span>
           </th>

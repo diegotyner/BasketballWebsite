@@ -7,11 +7,15 @@
   margin: 2rem auto;
 }
 
-th.custom-width {
-  width: 200px; /* Set a specific width for this column */
+.clickable {
+  user-select: none;
+  cursor: pointer;
 }
-th.custom-width span {
-  /* display: inline-block; */
+
+th.custom-width {
+  width: 150px; /* Set a specific width for this column */
+}
+th > span {
   vertical-align: middle;
 }
 
