@@ -36,12 +36,12 @@ const Table2 = () => {
         <tr>
           <th><span>#</span></th>
           <th className='custom-width-link'><span>Video Link</span></th>
+          <th><span>Thumbnail</span></th>
           <th><span>Title</span></th>
           <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
             <span>Published</span>
             <span><Caret direction={sort}/></span>
           </th>
-          <th><span>Thumbnail</span></th>
           <th><span>Description</span></th>
         </tr>
       </thead>
@@ -52,12 +52,12 @@ const Table2 = () => {
           <th>
             <a href={user.Video_Link} target="_blank">Link</a>
           </th>
-          <td>{user.Title}</td>
-          <td>{user.Published_At}</td>
           {/* Thumbnail is 480x360 */}
           <td>
             <img src={user.Thumbnail_URL} alt="Thumbnail of YT vid"/> 
           </td>
+          <td>{user.Title}</td>
+          <td>{user.Published_At}</td>
           <td>{user.Description}</td>
         </tr>
       ))}
