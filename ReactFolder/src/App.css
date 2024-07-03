@@ -4,12 +4,19 @@
 
 .table {
   max-width: 90%;
-  margin: 2rem auto;
+  margin: 3rem auto;
 }
 
 .clickable {
   user-select: none;
   cursor: pointer;
+}
+
+.searchBox {
+  max-width: 90%;
+  margin: auto;
+  padding: 8px 0.5rem 0.5rem 0.5rem;
+  font-weight: bold;
 }
 
 th.custom-width-pub {
@@ -19,7 +26,7 @@ th.custom-width-link {
   width: 100px; 
 }
 th.custom-width-thumb {
-  width: 100px; /* Intentially too small, making it squeeze img */
+  width: 490px; /* Intentially too small, making it squeeze img */
 }
 td.thumb-col {
   padding-bottom: 3px;

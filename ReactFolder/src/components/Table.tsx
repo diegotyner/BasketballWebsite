@@ -1,6 +1,5 @@
 // Video_Link,Title,Published_At,Thumbnail_URL,Description
 import { useState, useEffect } from 'react';
-import data from '../assets/YT_Basketball.json';
 import Caret from './Caret'
 
 
@@ -14,14 +13,25 @@ import Caret from './Caret'
   </tbody>
 </table>
 */
-const Table2 = () => {
+
+interface Video {
+  Video_Link: string;
+  Title: string;
+  Published_At: string;
+  Thumbnail_URL: string;
+  Description: string;
+}
+interface TableProps {
+  data: Video[];
+}
+const Table = ({data}: TableProps) => {
   const[sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [sortedData, setSortedData] = useState([...data]);
 
   useEffect(() => {
     if (sort === 'asc') {setSortedData([...data])}
     else {setSortedData([...data].reverse())}
-  }, [sort])
+  }, [sort, data])
 
   function handleHeaderClick() {
     // const direction = sort === 'asc' ? 'desc' : 'asc';
@@ -36,7 +46,7 @@ const Table2 = () => {
         <tr>
           <th><span>#</span></th>
           <th className='custom-width-link'><span>Video Link</span></th>
-          <th className='custom-width-thumb'><span>Thumbnail</span></th>
+          <th className='custom-width-thumb'><span>Thumbnail and Title</span></th>
           <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
             <span>Published</span>
             <span><Caret direction={sort}/></span>
@@ -45,11 +55,15 @@ const Table2 = () => {
         </tr>
       </thead>
       <tbody>
+      { sortedData.length === 0 && <tr key="1"><td colSpan={5}>
+        <span>No videos found :(</span>
+        </td>
+      </tr>}
       {sortedData.map((user, index) => (
         <tr key={index}>
           <th>{index+1}</th>
           <td>
-            <a href={user.Video_Link} target="_blank">Link</a>
+            <a className="link-offset-2" href={user.Video_Link} target="_blank">Link</a>
           </td>
           {/* Thumbnail is 480x360 */}
           <td className='thumb-col'>
@@ -64,4 +78,4 @@ const Table2 = () => {
     </table>
   )
 }
-export default Table2;
+export default Table;
