@@ -50,7 +50,7 @@ const Table2 = () => {
         <tr key={index}>
           <th>{index+1}</th>
           <th>
-            <a href={user.Video_Link} target="_blank">{user.Video_Link}</a>
+            <a href={user.Video_Link} target="_blank">Link</a>
           </th>
           <td>{user.Title}</td>
           <td>{user.Published_At}</td>
