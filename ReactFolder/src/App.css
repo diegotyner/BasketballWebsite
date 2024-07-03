@@ -19,6 +19,9 @@
   font-weight: bold;
 }
 
+th.custom-width-num {
+  width: 40px; 
+}
 th.custom-width-pub {
   width: 120px; 
 }
@@ -26,7 +29,7 @@ th.custom-width-link {
   width: 100px; 
 }
 th.custom-width-thumb {
-  width: 490px; /* Intentially too small, making it squeeze img */
+  width: 500px; /* Intentially too small, making it squeeze img */
 }
 td.thumb-col {
   padding-bottom: 3px;

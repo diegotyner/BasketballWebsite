@@ -1,18 +1,6 @@
-// Video_Link,Title,Published_At,Thumbnail_URL,Description
 import { useState, useEffect } from 'react';
 import Caret from './Caret'
 
-
-/*
-<table class="table">
-  <thead class="table-dark">
-    ...
-  </thead>
-  <tbody>
-    ...
-  </tbody>
-</table>
-*/
 
 interface Video {
   Video_Link: string;
@@ -44,7 +32,7 @@ const Table = ({data}: TableProps) => {
     <table className='table table-bordered align-middle'>
       <thead className='table-dark'>
         <tr>
-          <th><span>#</span></th>
+          <th className='custom-width-num'><span>#</span></th>
           <th className='custom-width-link'><span>Video Link</span></th>
           <th className='custom-width-thumb'><span>Thumbnail and Title</span></th>
           <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
