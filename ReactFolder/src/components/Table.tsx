@@ -13,7 +13,7 @@ interface TableProps {
   data: Video[];
 }
 const Table = ({data}: TableProps) => {
-  const[sort, setSort] = useState<'asc' | 'desc'>('desc');
+  const [sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [sortedData, setSortedData] = useState([...data]);
 
   useEffect(() => {
@@ -22,10 +22,7 @@ const Table = ({data}: TableProps) => {
   }, [sort, data])
 
   function handleHeaderClick() {
-    // const direction = sort === 'asc' ? 'desc' : 'asc';
-    console.log(sort, '=>')
-    setSort(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
-    console.log(sort)
+    setSort(prevSort => prevSort === 'asc' ? 'desc' : 'asc'); // direction = sort === 'asc' ? 'desc' : 'asc';
   }
 
   return (
