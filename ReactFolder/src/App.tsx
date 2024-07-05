@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-import data from './assets/YT_Basketball.json';
 import Table from './components/Table';
 import SearchBox from './components/SearchBox';
 
