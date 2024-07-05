@@ -5,7 +5,7 @@ import cors from 'cors';
 import * as dotenv from 'dotenv';
 import { Video, VideoList, IVideo, IVideoList } from './models/schema';
 
-import data from './YT_Basketball.json';
+import data from '../YT_Basketball.json';
 
 dotenv.config();
 const app = express();
