@@ -13,7 +13,7 @@ interface TableProps {
   data: Video[];
 }
 const Table = ({data}: TableProps) => {
-  const[sort, setSort] = useState<'asc' | 'desc'>('desc');
+  const [sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [sortedData, setSortedData] = useState([...data]);
 
   useEffect(() => {
@@ -22,10 +22,7 @@ const Table = ({data}: TableProps) => {
   }, [sort, data])
 
   function handleHeaderClick() {
-    // const direction = sort === 'asc' ? 'desc' : 'asc';
-    console.log(sort, '=>')
-    setSort(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
-    console.log(sort)
+    setSort(prevSort => prevSort === 'asc' ? 'desc' : 'asc'); // direction = sort === 'asc' ? 'desc' : 'asc';
   }
 
   return (
@@ -33,7 +30,6 @@ const Table = ({data}: TableProps) => {
       <thead className='table-dark'>
         <tr>
           <th className='custom-width-num'><span>#</span></th>
-          <th className='custom-width-link'><span>Video Link</span></th>
           <th className='custom-width-thumb'><span>Thumbnail and Title</span></th>
           <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
             <span>Published</span>
@@ -44,18 +40,15 @@ const Table = ({data}: TableProps) => {
       </thead>
       <tbody>
       { sortedData.length === 0 && <tr key="1"><td colSpan={5}>
-        <span>No videos found :(</span>
+        <span>No videos found</span>
         </td>
       </tr>}
       {sortedData.map((user, index) => (
         <tr key={index}>
           <td className='fw-bold'>{index+1}</td>
-          <td>
-            <a className="link-offset-2" href={user.Video_Link} target="_blank">Link</a>
-          </td>
           {/* Thumbnail is 480x360 */}
           <td className='thumb-col'>
-            <img src={user.Thumbnail_URL} alt="Thumbnail of YT vid"/> 
+            <img src={user.Thumbnail_URL} alt="Thumbnail of YT vid" className="clickable" onClick={() => window.open(user.Video_Link, '_blank')}/> 
             <span>{user.Title}</span>
           </td>
           <td>{user.Published_At}</td>

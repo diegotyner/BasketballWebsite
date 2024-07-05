@@ -21,8 +21,11 @@ th {
 .clickable {
   user-select: none;
   cursor: pointer;
+  transition: opacity 0.4s ease;
 }
-
+.clickable:hover {
+  opacity: 0.7;
+}
 .searchBox {
   max-width: 90%;
   margin: auto;
