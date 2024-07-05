@@ -67,6 +67,8 @@ app.get('/api/data', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     console.log(videoList);
     res.json(videoList);
 }));
+app.delete('/api/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+}));
 function videoDateSort(a, b) {
     const date_a = new Date(a.Published_At);
     const date_b = new Date(b.Published_At);
