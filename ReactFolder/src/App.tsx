@@ -13,16 +13,16 @@ interface Video { // For passing props to Table (through filteredData)
   Published_At: string;
   Thumbnail_URL: string;
   Description: string;
+  ID: string;
 }
 
 function App() {
-  const [responseData, setResponseData] = useState<Video[]>([])
+  const [responseData, setResponseData] = useState<Video[] | null>(null)
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(`${API_URL}/api/data`)
         const response = await axios.get(`${API_URL}/api/data`);
         console.log(response.data)
         setResponseData(response.data);
@@ -34,15 +34,19 @@ function App() {
     fetchData();
   }, []);
 
-  const filteredData = responseData.filter((item: Video) =>
+  const filteredData = responseData?.filter((item: Video) =>
     item.Title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.Description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ) || [];
 
   return (
     <>
-      <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-      <Table data={filteredData}/>
+      {!responseData ? <p>Loading data... (First loadup of backend server tends to be a bit slow, 5 seconds expected)</p> : (
+        <>
+          <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+          <Table data={filteredData}/>
+        </>
+      )}
     </>
   )
 }

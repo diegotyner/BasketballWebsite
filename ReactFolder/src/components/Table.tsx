@@ -8,6 +8,7 @@ interface Video {
   Published_At: string;
   Thumbnail_URL: string;
   Description: string;
+  ID: string;
 }
 interface TableProps {
   data: Video[];
