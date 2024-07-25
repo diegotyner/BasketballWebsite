@@ -24,6 +24,10 @@ const Form = ( {video, type, callback}: FormProps) => {
 
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    const hasConfirmed = confirm(
+      "Are you sure you want to delete this prompt?"
+    );
+    if (!hasConfirmed) return
     const payload = JSON.stringify({vidId: video?._id})
     console.log(payload)
     try {
