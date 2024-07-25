@@ -65,7 +65,7 @@ const Form = ( {video, type, callback}: FormProps) => {
       const API_URL = import.meta.env.VITE_API_URL
       const method = type === "Add" ? "POST" : "PUT";
       console.log(`${API_URL}/api/${type}`);
-      const response = await fetch(`${API_URL}/api/${type}`, {
+      const response = await fetch(`${API_URL}/api/${type.toLowerCase()}`, {
         method: method,
         headers: {
           'Content-Type': 'application/json'
