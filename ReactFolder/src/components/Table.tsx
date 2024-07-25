@@ -52,7 +52,7 @@ const Table = ({data}: TableProps) => {
               <span><Caret direction={sort}/></span>
             </th>
             <th><span>Description</span></th>
-            <th className='custom-width-add'><button onClick={handeAddClick}>Add New</button></th>
+            <th className='custom-width-add '><button className='clickable' onClick={handeAddClick}>Add New</button></th>
           </tr>
         </thead>
         <tbody>

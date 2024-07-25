@@ -139,9 +139,9 @@ const Form = ( {video, type, callback}: FormProps) => {
           />
 
           <div className="modal_content">
-            {video && <button className='modal_cancel modal_delete' onClick={handleDelete}>Delete</button>}
+            {video && <button className='modal_cancel modal_delete clickable' onClick={handleDelete}>Delete</button>}
             <div className="modal_buttons">
-              <button className='modal_cancel' onClick={() => callback('')}>Cancel</button>
+              <button className='modal_cancel clickable' onClick={() => callback('')}>Cancel</button>
               <input className='modal_submit clickable' type="submit" disabled={!videoLink || !thumbnailUrl || !title || !publishedAt || !description} />
             </div>
           </div>

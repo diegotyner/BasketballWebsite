@@ -24,7 +24,7 @@ th {
   transition: opacity 0.4s ease;
 }
 .clickable:hover {
-  opacity: 0.7;
+  opacity: 0.75;
 }
 .searchBox {
   max-width: 90%;
