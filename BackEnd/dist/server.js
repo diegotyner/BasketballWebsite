@@ -41,7 +41,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv = __importStar(require("dotenv"));
 const schema_1 = require("./models/schema");
-const YT_Basketball_json_1 = __importDefault(require("../YT_Basketball.json"));
+// import data from '../YT_Basketball.json';
 dotenv.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
@@ -54,21 +54,7 @@ mongoose_1.default.connect(dbURI)
     app.listen(port, () => { console.log(`Server is running on http://localhost:${port}`); });
 })
     .catch((err) => console.log(err));
-app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Hello");
-    const videoList = yield schema_1.Video.find().exec();
-    console.log(videoList);
-    res.send('Hello from the backend!');
-}));
-app.get('/api/data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("accessing data");
-    const videoListDoc = yield schema_1.VideoList.findOne().exec();
-    const videoList = videoListDoc === null || videoListDoc === void 0 ? void 0 : videoListDoc.videoList;
-    console.log(videoList);
-    res.json(videoList);
-}));
-app.delete('/api/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-}));
+// Util for sorting video dates. 
 function videoDateSort(a, b) {
     const date_a = new Date(a.Published_At);
     const date_b = new Date(b.Published_At);
@@ -82,60 +68,144 @@ function videoDateSort(a, b) {
         return a.Position - b.Position;
     }
 }
-app.get('/pushing2mongoList', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const videoList = YT_Basketball_json_1.default.map((item, index) => {
+app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("[GET] / ------");
+    // const videoList: IVideo[] = await (Video.find().exec() as unknown as IVideo[]);
+    // console.log(videoList)
+    res.send('Hello from the backend!');
+}));
+app.get('/api/data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.time('API Access');
+    console.log("[GET] /api/data ------");
+    const videoListDoc = yield schema_1.VideoList.findOne().exec();
+    const videoList = videoListDoc === null || videoListDoc === void 0 ? void 0 : videoListDoc.videoList;
+    console.log("Length: ", videoList === null || videoList === void 0 ? void 0 : videoList.length);
+    console.timeEnd('API Access');
+    res.json(videoList);
+}));
+app.delete('/api/delete', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("[DELETE] / ------");
+    console.log(req.body);
+    const { vidId } = req.body;
+    if (!vidId) {
+        console.log("Incomplete Request");
+        return res.status(400).send('All fields are required');
+    }
+    try {
+        const videoListDoc = yield schema_1.VideoList.findOne().exec();
+        const videoList = videoListDoc === null || videoListDoc === void 0 ? void 0 : videoListDoc.videoList;
+        if (!videoList) {
+            return res.status(404).send('Video list not found');
+        }
+        const videoIndex = videoList.findIndex(video => { var _a; return ((_a = video._id) === null || _a === void 0 ? void 0 : _a.toString()) === vidId; });
+        if (videoIndex === -1) {
+            return res.status(404).send('Video not found');
+        }
+        videoList.splice(videoIndex, 1);
+        videoList.forEach((item, index) => item.Position = index);
+        yield videoListDoc.save();
+        res.status(200).json({ message: 'Video deleted successfully' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+    ;
+}));
+app.post('/api/add', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("[POST] / ------");
+    console.log(req.body);
+    const { videoLink, title, publishedAt, thumbnailUrl, description } = req.body;
+    if (!videoLink || !title || !publishedAt || !thumbnailUrl || !description) {
+        console.log("Incomplete Request");
+        return res.status(400).send('All fields are required');
+    }
+    try {
+        let videoListDoc = yield schema_1.VideoList.findOne().exec();
+        const position = videoListDoc ? videoListDoc.videoList.length : 0;
         const vid = new schema_1.Video({
-            Video_Link: item.Video_Link,
-            Title: item.Title,
-            Published_At: item.Published_At,
-            Thumbnail_URL: item.Thumbnail_URL,
-            Description: item.Description,
-            Position: index
+            Video_Link: videoLink,
+            Title: title,
+            Published_At: publishedAt,
+            Thumbnail_URL: thumbnailUrl,
+            Description: description,
+            Position: position
         });
         console.log(vid);
-        return vid;
-    });
-    videoList.sort((a, b) => videoDateSort(a, b)); // Helper function, judges dates and their relative order
-    videoList.forEach((item, index) => item.Position = index);
-    const videoListDocument = new schema_1.VideoList({ videoList: videoList });
-    yield videoListDocument.save()
-        .then(() => console.log('Videos saved:'))
-        .catch(err => console.error('Error saving video:', err));
-    /*
-    videoList.sort((a,b) => videoDateSort(a, b)) // Helper function, judges dates and their relative order
-    videoList.forEach(video => {
-      video.save()
-      .then(() => console.log('Video saved:'))
-      .catch(err => console.error('Error saving video:', err))
-    });
-    */
-    res.send("videos saved :3");
-}));
-app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let videoListDoc = yield schema_1.VideoList.findOne().exec();
-    const { video_Link, title, published_at, thumbnail_URL, description } = req.body;
-    const position = videoListDoc ? videoListDoc.videoList.length : 0;
-    const vid = new schema_1.Video({
-        Video_Link: video_Link,
-        Title: title,
-        Published_At: published_at,
-        Thumbnail_URL: thumbnail_URL,
-        Description: description,
-        Position: position
-    });
-    let newList;
-    if (!videoListDoc) {
-        newList = new schema_1.VideoList({ videoList: [vid] });
-        yield newList.save();
-        console.log("No doc found, new created. Video saved: ", vid);
+        let newList;
+        if (!videoListDoc) {
+            newList = new schema_1.VideoList({ videoList: [vid] });
+            yield newList.save();
+            console.log("No doc found, new created. Video saved: ", vid);
+        }
+        else {
+            videoListDoc.videoList.push(vid);
+            videoListDoc.videoList.sort((a, b) => videoDateSort(a, b));
+            videoListDoc.videoList.forEach((item, index) => item.Position = index);
+            yield videoListDoc.save();
+            newList = videoListDoc;
+            console.log("Video saved to existing list: ", vid);
+        }
+        res.send(newList);
     }
-    else {
-        videoListDoc.videoList.push(vid);
-        videoListDoc.videoList.sort((a, b) => videoDateSort(a, b));
-        videoListDoc.videoList.forEach((item, index) => item.Position = index);
+    catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+    ;
+}));
+app.put('/api/edit', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("[PUT] / ------");
+    console.log(req.body);
+    const { videoLink, title, publishedAt, thumbnailUrl, description, vidId } = req.body;
+    if (!videoLink || !title || !publishedAt || !thumbnailUrl || !description || !vidId) {
+        console.log("Incomplete Request");
+        return res.status(400).send('All fields are required');
+    }
+    try {
+        const videoListDoc = yield schema_1.VideoList.findOne().exec();
+        const videoList = videoListDoc === null || videoListDoc === void 0 ? void 0 : videoListDoc.videoList;
+        if (!videoList) {
+            return res.status(404).send('Video list not found');
+        }
+        const videoIndex = videoList.findIndex(video => { var _a; return ((_a = video._id) === null || _a === void 0 ? void 0 : _a.toString()) === vidId; });
+        if (videoIndex === -1) {
+            return res.status(404).send('Video not found');
+        }
+        videoList[videoIndex].Video_Link = videoLink;
+        videoList[videoIndex].Title = title;
+        videoList[videoIndex].Published_At = publishedAt;
+        videoList[videoIndex].Thumbnail_URL = thumbnailUrl;
+        videoList[videoIndex].Description = description;
+        videoList.sort((a, b) => videoDateSort(a, b));
+        videoList.forEach((item, index) => item.Position = index);
         yield videoListDoc.save();
-        newList = videoListDoc;
-        console.log("Video saved to existing list: ", vid);
+        res.status(200).json({ message: 'Video updated successfully' });
     }
-    res.send(newList);
+    catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+    ;
 }));
+// app.get('/pushing2mongoList', async (req: Request, res: Response) => {
+//   const videoList: IVideo[] = data.map((item, index) => {
+//     const vid = new Video({
+//       Video_Link: item.Video_Link,
+//       Title: item.Title,
+//       Published_At: item.Published_At,
+//       Thumbnail_URL: item.Thumbnail_URL,
+//       Description: item.Description,
+//       Position: index
+//     });
+//     console.log(vid)
+//     return vid;
+//   });
+//   videoList.sort((a,b) => videoDateSort(a, b)); // Helper function, judges dates and their relative order
+//   videoList.forEach((item, index) => item.Position = index);
+//   const videoListDocument = new VideoList({ videoList: videoList});
+//   await videoListDocument.save()    
+//     .then(() => console.log('Videos saved:'))
+//     .catch(err => console.error('Error saving video:', err));
+//   res.send("videos saved :3")
+// });
