@@ -22,6 +22,34 @@ const Form = ( {video, type, callback}: FormProps) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(video?.Thumbnail_URL || '');
   const [description, setDescription] = useState(video?.Description || '');
 
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const payload = JSON.stringify({vidId: video?._id})
+    console.log(payload)
+    try {
+      const API_URL = import.meta.env.VITE_API_URL
+      console.log(`${API_URL}/api/delete`);
+      const response = await fetch(`${API_URL}/api/delete`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
+        },  
+        body: payload,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Success:', data);
+      window.location.reload();
+    } catch (error) {
+      alert("Submission Failed")
+      console.error('Error:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = {
@@ -107,6 +135,7 @@ const Form = ( {video, type, callback}: FormProps) => {
           />
 
           <div className="modal_content">
+            {video && <button className='modal_cancel modal_delete' onClick={handleDelete}>Delete</button>}
             <div className="modal_buttons">
               <button className='modal_cancel' onClick={() => callback('')}>Cancel</button>
               <input className='modal_submit clickable' type="submit" disabled={!videoLink || !thumbnailUrl || !title || !publishedAt || !description} />

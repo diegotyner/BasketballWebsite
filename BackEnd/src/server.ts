@@ -59,8 +59,13 @@ app.get('/api/data', async (req: Request, res: Response) => {
 
 
 app.delete('/api/delete', async (req: Request, res: Response) => {
-  console.log("[delete] / ------")
+  console.log("[DELETE] / ------");
+  console.log(req.body)
   const { vidId } = req.body
+  if (!vidId) {
+    console.log("Incomplete Request")
+    return res.status(400).send('All fields are required');
+  }
 
   try {
     const videoListDoc: IVideoList | null = await VideoList.findOne().exec();
@@ -75,7 +80,7 @@ app.delete('/api/delete', async (req: Request, res: Response) => {
     videoList.splice(videoIndex, 1);
     videoList.forEach((item, index) => item.Position = index);
     await videoListDoc.save();
-    res.status(200).send('Video updated successfully');
+    res.status(200).json({ message: 'Video deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred');

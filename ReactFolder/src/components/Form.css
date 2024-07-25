@@ -54,3 +54,6 @@
   border-radius: 20px;
   background-color: transparent;
 }
+.modal_delete {
+  background-color: rgb(255, 108, 97);
+}
