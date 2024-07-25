@@ -46,6 +46,14 @@ th.custom-width-link {
 th.custom-width-thumb {
   width: 500px; /* Intentially too small, making it squeeze img */
 }
+th.custom-width-add {
+  width: 100px;
+}
+th > button {
+  background-color: rgb(214, 214, 214);
+  border-radius: 10px;
+  border-width: 1px;
+}
 td.thumb-col {
   padding-bottom: 3px;
 }

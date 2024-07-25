@@ -20,6 +20,7 @@ export interface IVideo extends Document {
 }
 export interface IVideoList extends Document {
   videoList: IVideo[];
+  _id: Schema.Types.ObjectId;
 }
 
 const videoSchema = new Schema<IVideo>({

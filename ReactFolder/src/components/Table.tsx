@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Caret from './Caret'
+import Form from './Form';
+
 
 
 interface Video {
@@ -8,7 +10,7 @@ interface Video {
   Published_At: string;
   Thumbnail_URL: string;
   Description: string;
-  ID: string;
+  _id: string;
 }
 interface TableProps {
   data: Video[];
@@ -16,6 +18,8 @@ interface TableProps {
 const Table = ({data}: TableProps) => {
   const [sort, setSort] = useState<'asc' | 'desc'>('desc');
   const [sortedData, setSortedData] = useState([...data]);
+  const [popUp, setPopUp] = useState('')
+  const [video, setVideo] = useState<Video | undefined>(undefined)
 
   useEffect(() => {
     if (sort === 'asc') {setSortedData([...data])}
@@ -25,39 +29,53 @@ const Table = ({data}: TableProps) => {
   function handleHeaderClick() {
     setSort(prevSort => prevSort === 'asc' ? 'desc' : 'asc'); // direction = sort === 'asc' ? 'desc' : 'asc';
   }
-
+  const handeEditClick = (video: Video) => {
+    setVideo(video)
+    console.log(video)
+    setPopUp("Edit")
+  };
+  const handeAddClick = () => {
+    setVideo(undefined)
+    setPopUp("Add")
+  };
   return (
-    <table className='table table-bordered align-middle'>
-      <thead className='table-dark'>
-        <tr>
-          <th className='custom-width-num'><span>#</span></th>
-          <th className='custom-width-thumb'><span>Thumbnail and Title</span></th>
-          <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
-            <span>Published</span>
-            <span><Caret direction={sort}/></span>
-          </th>
-          <th><span>Description</span></th>
-        </tr>
-      </thead>
-      <tbody>
-      { sortedData.length === 0 && <tr key="1"><td colSpan={5}>
-        <span>No videos found</span>
-        </td>
-      </tr>}
-      {sortedData.map((user, index) => (
-        <tr key={index}>
-          <td className='fw-bold'>{index+1}</td>
-          {/* Thumbnail is 480x360 */}
-          <td className='thumb-col'>
-            <img src={user.Thumbnail_URL} alt="Thumbnail of YT vid" className="clickable" onClick={() => window.open(user.Video_Link, '_blank')}/> 
-            <span>{user.Title}</span>
+    <>
+      {popUp && <Form type={popUp} callback={setPopUp} video={video}/>}
+
+      <table className='table table-bordered align-middle'>
+        <thead className='table-dark'>
+          <tr>
+            <th className='custom-width-num'><span>#</span></th>
+            <th className='custom-width-thumb'><span>Thumbnail and Title</span></th>
+            <th className='custom-width-pub clickable' onClick={() => handleHeaderClick()}>
+              <span>Published</span>
+              <span><Caret direction={sort}/></span>
+            </th>
+            <th><span>Description</span></th>
+            <th className='custom-width-add'><button onClick={handeAddClick}>Add New</button></th>
+          </tr>
+        </thead>
+        <tbody>
+        { sortedData.length === 0 && <tr key="1"><td colSpan={5}>
+          <span>No videos found</span>
           </td>
-          <td>{user.Published_At}</td>
-          <td>{user.Description}</td>
-        </tr>
-      ))}
-      </tbody>
-    </table>
+        </tr>}
+        {sortedData.map((video, index) => (
+          <tr key={index}>
+            <td className='fw-bold'>{index+1}</td>
+            {/* Thumbnail is 480x360 */}
+            <td className='thumb-col'>
+              <img src={video.Thumbnail_URL} alt="Thumbnail of YT vid" className="clickable" onClick={() => window.open(video.Video_Link, '_blank')}/> 
+              <span>{video.Title}</span>
+            </td>
+            <td>{video.Published_At}</td>
+            <td>{video.Description}</td>
+            <td><img src={'assets/wrench.svg'} alt="wrench icon" className="clickable" onClick={() => handeEditClick(video)}/></td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
+    </>
   )
 }
 export default Table;

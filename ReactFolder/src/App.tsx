@@ -13,7 +13,7 @@ interface Video { // For passing props to Table (through filteredData)
   Published_At: string;
   Thumbnail_URL: string;
   Description: string;
-  ID: string;
+  _id: string;
 }
 
 function App() {
