@@ -16,6 +16,14 @@ interface FormProps {
   callback: (value: string) => void;
 }
 const Form = ( {video, type, callback}: FormProps) => {
+  // Better practice would be to do this, but I don't want to refactor the code and break something
+  // const [form, setForm] = useState({
+  //   Video_Link: video?.Video_Link,
+  //   Title : video?.Title,
+  //   Published_At: video?.Published_At,
+  //   Thumbnail_URL: video?.Thumbnail_URL,
+  //   Description: video?.Description,
+  // })
   const [videoLink, setVideoLink] = useState(video?.Video_Link || '');
   const [title, setTitle] = useState(video?.Title || '');
   const [publishedAt, setPublishedAt] = useState(video?.Published_At || '');
